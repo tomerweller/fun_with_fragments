@@ -1,32 +1,17 @@
 package com.example.fun_with_fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import com.example.fun_with_fragments.events.IpsumSelectedEvent;
+import com.example.fun_with_fragments.util.BusProvider;
 
 public class NavigationFragment extends Fragment {
 
-    public static interface Listener {
-        public void navigateToIpsum(int i);
-    }
-
     Button ipsumBtn1, ipsumBtn2, ipsumBtn3;
-    NavigationFragment.Listener listener;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try{
-            listener = (Listener)activity;
-        }catch(ClassCastException e){
-            throw new ClassCastException(
-                    "Activity must implement NavigationFragment.Listener");
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,11 +29,11 @@ public class NavigationFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if (v.equals(ipsumBtn1)){
-                listener.navigateToIpsum(1);
+                BusProvider.getBus().post(new IpsumSelectedEvent(1));
             } else if (v.equals(ipsumBtn2)){
-                listener.navigateToIpsum(2);
+                BusProvider.getBus().post(new IpsumSelectedEvent(2));
             } else if (v.equals(ipsumBtn3)){
-                listener.navigateToIpsum(3);
+                BusProvider.getBus().post(new IpsumSelectedEvent(3));
             }
         }
     };

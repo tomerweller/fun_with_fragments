@@ -5,9 +5,12 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import com.example.fun_with_fragments.events.IpsumDoneEvent;
+import com.example.fun_with_fragments.events.IpsumSelectedEvent;
+import com.example.fun_with_fragments.util.BusProvider;
+import com.squareup.otto.Subscribe;
 
-public class MainActivity extends Activity implements NavigationFragment.Listener,
-        Ipsum1Fragment.Listener, Ipsum2Fragment.Listener, Ipsum3Fragment.Listener{
+public class MainActivity extends Activity{
 
     public static final String IPSUM_FRAGMENT_TAG = "ipsum_fragment";
 
@@ -33,10 +36,22 @@ public class MainActivity extends Activity implements NavigationFragment.Listene
     }
 
     @Override
-    public void navigateToIpsum(int i) {
+    protected void onResume() {
+        super.onResume();
+        BusProvider.getBus().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        BusProvider.getBus().unregister(this);
+        super.onPause();
+    }
+
+    @Subscribe
+    public void navigateToIpsum(IpsumSelectedEvent e) {
         Fragment newFragment;
-        newFragment = (i==1) ?
-                new Ipsum1Fragment() : (i==2) ?
+        newFragment = (e.getIndex()==1) ?
+                new Ipsum1Fragment() : (e.getIndex()==2) ?
                 new Ipsum2Fragment() :
                 new Ipsum3Fragment();
 
@@ -47,8 +62,8 @@ public class MainActivity extends Activity implements NavigationFragment.Listene
         tx.commit();
     }
 
-    @Override
-    public void onIpsumDone() {
+    @Subscribe
+    public void onIpsumDone(IpsumDoneEvent e) {
         FragmentTransaction tx = fragmentManager.beginTransaction();
         if(isDualPane){
             tx.remove(fragmentManager.findFragmentByTag(IPSUM_FRAGMENT_TAG));
@@ -60,4 +75,6 @@ public class MainActivity extends Activity implements NavigationFragment.Listene
         tx.commit();
         fragmentManager.popBackStack();
     }
+
+
 }

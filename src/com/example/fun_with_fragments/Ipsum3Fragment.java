@@ -1,26 +1,15 @@
 package com.example.fun_with_fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import com.example.fun_with_fragments.events.IpsumDoneEvent;
+import com.example.fun_with_fragments.util.BusProvider;
 
 public class Ipsum3Fragment extends Fragment {
-
-    public static interface Listener{
-        public void onIpsumDone();
-    }
-
-    Ipsum3Fragment.Listener listener;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        listener  = (Listener) activity;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,7 +18,7 @@ public class Ipsum3Fragment extends Fragment {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onIpsumDone();
+                BusProvider.getBus().post(new IpsumDoneEvent());
             }
         });
         return view;
