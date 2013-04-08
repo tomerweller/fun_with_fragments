@@ -34,7 +34,7 @@ public class Ipsum1Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (i==-1)
+        if (id==-1)
             id = savedInstanceState.getLong("ID");
 
         View view = inflater.inflate(R.layout.ipsum_1_fragment, container, false);
