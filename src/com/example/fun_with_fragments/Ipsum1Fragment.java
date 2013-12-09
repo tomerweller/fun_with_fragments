@@ -15,17 +15,6 @@ public class Ipsum1Fragment extends Fragment {
 
     Listener listener;
 
-    //construct with argument example for Ran. UNTESTED
-    long id;
-    public Ipsum1Fragment() {
-        id=-1; //assuming the real id can't be -1
-    }
-    public static Ipsum1Fragment getInstance(long id){
-        Ipsum1Fragment fragment = new Ipsum1Fragment();
-        fragment.id=id;
-        return fragment;
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -34,9 +23,6 @@ public class Ipsum1Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (id==-1)
-            id = savedInstanceState.getLong("ID");
-
         View view = inflater.inflate(R.layout.ipsum_1_fragment, container, false);
         Button doneButton = (Button)view.findViewById(R.id.doneButton);
         doneButton.setOnClickListener(new View.OnClickListener() {
@@ -46,10 +32,5 @@ public class Ipsum1Fragment extends Fragment {
             }
         });
         return view;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putLong("ID", id);
     }
 }

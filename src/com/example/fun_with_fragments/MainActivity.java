@@ -42,7 +42,7 @@ public class MainActivity extends Activity implements NavigationFragment.Listene
 
         FragmentTransaction tx = fragmentManager.beginTransaction();
         tx.replace(R.id.fragment_container, newFragment, IPSUM_FRAGMENT_TAG);
-        tx.addToBackStack(null);
+//        tx.addToBackStack(null);
         tx.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         tx.commit();
     }
